@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Student Form</title>
+  <meta charset="UTF-8" />
+  <title>Admin and Upload Forms</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f2f2f2;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      padding: 40px 0;
+      gap: 30px;
     }
 
     form {
@@ -18,7 +19,8 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
+      width: 320px;
+      box-sizing: border-box;
     }
 
     label {
@@ -27,12 +29,14 @@
       font-weight: bold;
     }
 
-    input[type="text"] {
+    input[type="text"],
+    input[type="file"] {
       width: 100%;
       padding: 8px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      box-sizing: border-box;
     }
 
     input[type="submit"] {
@@ -44,30 +48,101 @@
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     input[type="submit"]:hover {
       background-color: #0056b3;
     }
+
+    /* Styled button link for Upload Form */
+    .button-link {
+      display: inline-block;
+      text-align: center;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin: 0 auto 20px auto;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 320px;
+    }
+
+    .button-link:hover {
+      background-color: #0056b3;
+    }
+
+    #file-name {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #555;
+      min-height: 20px;
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      padding: 8px 15px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-weight: 600;
+      border-radius: 6px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
   </style>
 </head>
 <body>
-    <form action="/getAdmin" method="get">
-        <label for="id">admin ID</label>
-        <input type="text" id="adminId" name="adminId">
-        <br>
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstname" name="firstname">
-        <br>
-        <label for="id">Last Name</label>
-        <input type="text" id="lastName" name="lastName">
-        <br>
-        <label for="id">Department</label>
-        <input type="text" id="department" name="department">
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+  <!-- Admin Form -->
+  <form action="/getAdmin" method="get">
+    <label for="adminId">admin ID</label>
+    <input type="text" id="adminId" name="adminId" />
+
+    <label for="firstname">First Name</label>
+    <input type="text" id="firstname" name="firstName" />
+
+    <label for="lastName">Last Name</label>
+    <input type="text" id="lastName" name="lastName" />
+
+    <label for="department">Department</label>
+    <input type="text" id="department" name="department" />
+
+    <input type="submit" value="Submit" />
+  </form>
+
+  <!-- Upload Form -->
+  <form action="/upload" enctype="multipart/form-data" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required />
+
+    <label for="file" class="custom-file-upload">Select File</label>
+    <input type="file" id="file" name="file" required />
+
+    <!-- File name display -->
+    <div id="file-name">No file chosen</div>
+
+    <input type="submit" value="Upload" />
+  </form>
+
+  <script>
+    const fileInput = document.getElementById('file');
+    const fileNameDiv = document.getElementById('file-name');
+
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        fileNameDiv.textContent = fileInput.files[0].name;
+      } else {
+        fileNameDiv.textContent = 'No file chosen';
+      }
+    });
+  </script>
 </body>
 </html>
-
-
